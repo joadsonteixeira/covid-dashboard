@@ -38,61 +38,48 @@
             </ul>
         </div>
     </nav>
-
-
-    <section class="container mt-5">
-
-
+    <section class="layout">
         <button id="loadingSpinner" class="btn btn-primary mb-3" type="button" style="display: none;" disabled>
             <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
             Carregando dados...
         </button>
-
-        <div class="card">
-            <div class="card-body">
-
-                <div class="d-flex justify-content-around">
-                    <div class="card text-white bg-warning col-3 mb-3" style="max-width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Casos Confirmados</h5>
-                            <p id="casos" class="card-text">
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card text-white bg-danger col-3 mb-3" style="max-width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Óbitos</h5>
-                            <p id="obitos" class="card-text">
-                            </p>
-                        </div>
-                    </div>
+        <div class="container-row">
+            <div class="card-content card-yellow" style="max-width: 18rem;">
+                <div class="">
+                    <h5 class="">Casos Confirmados</h5>
+                    <p id="casos" class="">
+                        
+                    </p>
                 </div>
-                <div class="d-flex justify-content-around mt-3 mb-3">
-                    <div id="topCasosConfirmados" class="col-5" style="height:400px;"></div>
-                    <div id="topObitos" class="col-5" style="height:400px;"></div>
+            </div>
+            <div class="card-content card-red" style="max-width: 18rem;">
+                <div class="">
+                    <h5 class="">Óbitos</h5>
+                    <p id="obitos" class="">
+                        
+                    </p>
                 </div>
-                <div class="mt-5">
-
-                    <table id="table" class="table table-sm table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="centralize" scope="col">Estado</th>
-                                <th class="centralize" scope="col">Casos</th>
-                                <th class="centralize" scope="col">Óbitos</th>
-                                <th class="centralize" scope="col">Data</th>
-                            </tr>
-                        </thead>
-                    </table>
-
-                </div>
-
             </div>
         </div>
+        <div class="d-flex justify-content-around mt-3 mb-3">
+            <div id="topCasosConfirmados" class="col-5" style="height:400px;"></div>
+            <div id="topObitos" class="col-5" style="height:400px;"></div>
+        </div>
+        <div class="mt-5">
 
+            <table id="table" class="table table-sm table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="centralize" scope="col">Estado</th>
+                        <th class="centralize" scope="col">Casos</th>
+                        <th class="centralize" scope="col">Óbitos</th>
+                        <th class="centralize" scope="col">Data</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
     </section>
-
-
 
     <script type="text/javascript" src="../static/lib/jquery/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
