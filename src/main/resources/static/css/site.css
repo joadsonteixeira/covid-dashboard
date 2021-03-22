@@ -1,4 +1,5 @@
 .centralize {
+<<<<<<< HEAD
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -79,4 +80,39 @@ nav {
 
 a {
     text-decoration: none;
+=======
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.layout {
+    width: 1000px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    padding: 25px 15px;
+    background-color: #f5f5f5;
+    border-radius: 15px;
+}
+
+.container-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-content {
+    width: 300px;
+    padding: 20px 15px;
+    border-radius: 3px;
+    border: solid #bbb 1px;
+}
+
+.card-yellow {
+    background-color: #ffe042;
+}
+
+.card-red {
+    background-color: #ff3d3d;
+>>>>>>> 7d021de8991b1e5e9855761b16c6904d105d06be
 }
