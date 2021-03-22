@@ -13,86 +13,62 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="nav">
         <a class="navbar-brand" href="#">BRASIL COVID-19</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Estados
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Casos por Estado</a>
-                        <a class="dropdown-item" href="#">Óbitos por Estado</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <ul class="nav-list">
+            <li><a href="#">Estados</a></li>
+        </ul>
     </nav>
-
-
-    <section class="container mt-5">
-
-
+    <section class="layout">
         <button id="loadingSpinner" class="btn btn-primary mb-3" type="button" style="display: none;" disabled>
             <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
             Carregando dados...
         </button>
-
-        <div class="card">
-            <div class="card-body">
-
-                <div class="d-flex justify-content-around">
-                    <div class="card text-white bg-warning col-3 mb-3" style="max-width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Casos Confirmados</h5>
-                            <p id="casos" class="card-text">
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card text-white bg-danger col-3 mb-3" style="max-width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Óbitos</h5>
-                            <p id="obitos" class="card-text">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-around mt-3 mb-3">
-                    <div id="topCasosConfirmados" class="col-5" style="height:400px;"></div>
-                    <div id="topObitos" class="col-5" style="height:400px;"></div>
-                </div>
-                <div class="mt-5">
-
-                    <table id="table" class="table table-sm table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="centralize" scope="col">Estado</th>
-                                <th class="centralize" scope="col">Casos</th>
-                                <th class="centralize" scope="col">Óbitos</th>
-                                <th class="centralize" scope="col">Data</th>
-                            </tr>
-                        </thead>
-                    </table>
-
-                </div>
-
+        <div class="container-row justify-content-start">
+            <div class="form-group float-left">
+                <select class="form-control">
+                    <option>Selecione um Estado</option>
+                </select>
             </div>
         </div>
+        <div class="container-row">
+            <div class="card-content card-yellow" style="max-width: 18rem;">
+                <div class="">
+                    <h5 class="">Casos Confirmados</h5>
+                    <p id="casos" class="">
 
+                    </p>
+                </div>
+            </div>
+            <div class="card-content card-red" style="max-width: 18rem;">
+                <div class="">
+                    <h5 class="">Óbitos</h5>
+                    <p id="obitos" class="">
+
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-around mt-3 mb-3">
+            <div id="topCasosConfirmados" class="col-5" style="height:400px;"></div>
+            <div id="topObitos" class="col-5" style="height:400px;"></div>
+        </div>
+        <div class="mt-5">
+
+            <table id="table" class="table table-sm table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="centralize" scope="col">Estado</th>
+                        <th class="centralize" scope="col">Casos</th>
+                        <th class="centralize" scope="col">Óbitos</th>
+                        <th class="centralize" scope="col">Data</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
     </section>
-
-
 
     <script type="text/javascript" src="../static/lib/jquery/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
