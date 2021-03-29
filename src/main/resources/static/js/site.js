@@ -5,14 +5,11 @@ window.onload = casosFull();
 
 function casosFull() {
     $.ajax({
-        url: 'https://api.brasil.io/v1/dataset/covid19/caso_full/data/',
+        url: 'http://localhost:8080/registros',
         headers: {
-            Authorization: "Token 59d25c9e10d86111d7385204dd42ee3a99b7ec1b"
+            'Content-Type': 'application/json;'
         },
-        data: {
-            place_type: "state",
-            is_last: "True"
-        },
+        crossDomain: true,
         method: 'get',
         datatype: "json",
         beforeSend: function () {
@@ -33,10 +30,9 @@ function feedCards(data) {
     var qtdObitos = 0;
     var qtdCasos = 0;
     for (let i in data) {
-        for (let j in data[i]) {
-            qtdObitos += data[i][j].new_deaths;
-            qtdCasos += data[i][j].new_confirmed;
-        }
+            qtdObitos += data[i].new_deaths;
+            qtdCasos += data[i].new_confirmed;
+        
     }
     casos.innerHTML = qtdCasos + ' Casos Totais';
     obitos.innerHTML = qtdObitos + ' Óbitos Totais';
@@ -45,12 +41,10 @@ function feedCards(data) {
 function topCasosEstados(data) {
     var casos = [];
     for (let i in data) {
-        for (let j in data[i]) {
             casos.push({
-                casos: data[i][j].new_confirmed,
-                estado: data[i][j].state
-            });
-        }
+                casos: data[i].new_confirmed,
+                estado: data[i].state
+        })
     }
     var sortedCasos = casos.sort(function (a, b) { return b.casos - a.casos }).slice(0, 5);
     graficoTopCasos(sortedCasos);
@@ -59,12 +53,10 @@ function topCasosEstados(data) {
 function topObitos(data) {
     var obitos = [];
     for (let i in data) {
-        for (let j in data[i]) {
             obitos.push({
-                obitos: data[i][j].new_deaths,
-                estado: data[i][j].state
-            });
-        }
+                obitos: data[i].new_deaths,
+                estado: data[i].state
+        })
     }
     var sortedObitos = obitos.sort(function (a, b) { return b.obitos - a.obitos }).slice(0, 5);
     graficoTopObitos(sortedObitos);
@@ -143,14 +135,12 @@ function graficoTopObitos(obitos) {
 function preparaDados(data){
     var dados = [];
     for (let i in data) {
-        for (let j in data[i]) {
             dados.push({
-                estado: data[i][j].state,
-                casos: data[i][j].new_confirmed,
-                obitos: data[i][j].new_deaths,
-                date: data[i][j].date,
+                estado: data[i].state,
+                casos: data[i].new_confirmed,
+                obitos: data[i].new_deaths,
+                date: data[i].date,
             });
-        }
     }
     feedTabela(dados);
 }
