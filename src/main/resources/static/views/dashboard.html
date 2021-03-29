@@ -14,42 +14,30 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="nav">
         <a class="navbar-brand" href="#">BRASIL COVID-19</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Estados
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Casos por Estado</a>
-                        <a class="dropdown-item" href="#">Óbitos por Estado</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <ul class="nav-list">
+            <li><a href="#">Estados</a></li>
+        </ul>
     </nav>
     <section class="layout">
         <button id="loadingSpinner" class="btn btn-primary mb-3" type="button" style="display: none;" disabled>
             <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
             Carregando dados...
         </button>
+        <div class="container-row justify-content-start">
+            <div class="form-group float-left">
+                <select class="form-control">
+                    <option>Selecione um Estado</option>
+                </select>
+            </div>
+        </div>
         <div class="container-row">
             <div class="card-content card-yellow" style="max-width: 18rem;">
                 <div class="">
                     <h5 class="">Casos Confirmados</h5>
                     <p id="casos" class="">
-                        
                     </p>
                 </div>
             </div>
@@ -57,7 +45,6 @@
                 <div class="">
                     <h5 class="">Óbitos</h5>
                     <p id="obitos" class="">
-                        
                     </p>
                 </div>
             </div>
