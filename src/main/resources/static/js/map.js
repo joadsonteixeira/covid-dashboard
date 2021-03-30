@@ -29,16 +29,8 @@ function getNumeroDeCasosPorUF(uf){
     return ret;
 }
 
-var database = [];
-function getNumCasos(uf){
-    database.forEach(function (registro){
-        if(registro.state == uf){
-            return registro.last_available_confirmed;
-        }
-    })
-}
 
-function getColor(d) {
+function getCor(d) {
     return d > 1000000 ? '#800026' :
            d > 500000  ? '#BD0026' :
            d > 100000  ? '#E31A1C' :
@@ -49,9 +41,10 @@ function getColor(d) {
                       '#FFEDA0';
 }
 
-function style(feature) {
+//Colorir mapa
+function estilo(feature) {
     return {
-        fillColor: getColor(feature.properties.NUM_CASOS),
+        fillColor: getCor(feature.properties.NUM_CASOS),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -60,11 +53,9 @@ function style(feature) {
     };
 }
 
-
-
 function gerarMapa(dados){
 
-    //Adicionar numero de casos ao geoJson
+    //Adicionar numero de casos ao geoJson (uf)
     for(let i in dados){
         uf.features.forEach(function (feature){
             if(feature.properties.UF_05 == dados[i].state){
@@ -73,38 +64,45 @@ function gerarMapa(dados){
         });
     }
     
-    var geoJson;
+    var geoJson; //Variável para controle do mapa
 
-    var mapboxAccessToken = 'pk.eyJ1Ijoiam9hZHNvbnRlaXhlaXJhIiwiYSI6ImNrbXVlbW1saDA0MzYydXFzc3czdHhoanUifQ.MxrQOEen_Trt3FEdh3uhSg';
-    var map = L.map('map').setView([-15.0040939, -54.1760112], 4);
+    //Criação do mapa
+    var mapboxToken = 'pk.eyJ1Ijoiam9hZHNvbnRlaXhlaXJhIiwiYSI6ImNrbXVlbW1saDA0MzYydXFzc3czdHhoanUifQ.MxrQOEen_Trt3FEdh3uhSg'; //Token de acesso ao mapbox
+    var mapa = L.map('map').setView([-15.0040939, -54.1760112], 4);
 
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
+    // Estilização do mapa
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxToken, {
     id: 'mapbox/light-v9',
     attribution: '',
     tileSize: 512,
     zoomOffset: -1
-    }).addTo(map);
-    geoJson = L.geoJson(uf, {style: style}).addTo(map);
+    }).addTo(mapa);
+
+    // Delimitação dos estados através do geoJson uf
+    geoJson = L.geoJson(uf, {style: estilo}).addTo(mapa);
 
     //Info Controll
-    var info = L.control();
+    var cardDeInformacao = L.control();
 
-    info.onAdd = function (map) {
-        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    // Criar div para exibição do número de casos
+    cardDeInformacao.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
         this.update();
         return this._div;
     };
 
-    // method that we will use to update the control based on feature properties passed
-    info.update = function (props) {
+    // Atualização interativa do card de informação
+    cardDeInformacao.update = function (props) {
         this._div.innerHTML = '<h4>Número de Casos</h4>' +  (props ?
-            '<b>' + props.NOME_UF + '</b><br />' + props.NUM_CASOS + ' casos'
+            '<b>' + props.NOME_UF + '</b><br />' + props.NUM_CASOS + ' casos totais'
             : 'Passe o mouse sobre o estado');
     };
 
-    info.addTo(map);
+    // Aplicar card ao mapa
+    cardDeInformacao.addTo(mapa);
 
-    function highlightFeature(e) {
+    // Destacar estado selecionado
+    function destacarEstado(e) {
         var layer = e.target;
     
         layer.setStyle({
@@ -117,30 +115,34 @@ function gerarMapa(dados){
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
             layer.bringToFront();
         }
-        info.update(layer.feature.properties);
+        cardDeInformacao.update(layer.feature.properties);
     }
     
-    function zoomToFeature(e) {
-        map.fitBounds(e.target.getBounds());
+    //Aplicar zoom sobre o estado selecionado
+    function zoomEstado(e) {
+        mapa.fitBounds(e.target.getBounds());
     }
     
-    function resetHighlight(e) {
+    //Remover destaque
+    function removerDestaqueEstado(e) {
         geojson.resetStyle(e.target);
-        info.update();
+        cardDeInformacao.update();
     }
     
-    function onEachFeature(feature, layer) {
+    // Controle de ações
+    function controleDeIteracao(feature, layer) {
         layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
-            click: zoomToFeature
+            mouseover: destacarEstado,
+            mouseout: removerDestaqueEstado,
+            click: zoomEstado
         });
     }
 
-    //Adicionar Legendar
-    var legend = L.control({position: 'bottomright'});
+    //Criar Legenda
+    var legenda = L.control({position: 'bottomright'});
 
-    legend.onAdd = function (map) {
+    //Legenda de cores
+    legenda.onAdd = function (map) {
 
         var div = L.DomUtil.create('div', 'info legend'),
             grades = [0, 1000, 5000, 10000, 50000, 100000, 500000, 1000000],
@@ -149,18 +151,18 @@ function gerarMapa(dados){
         // loop through our density intervals and generate a label with a colored square for each interval
         for (var i = 0; i < grades.length; i++) {
             div.innerHTML +=
-                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                '<i style="background:' + getCor(grades[i] + 1) + '"></i> ' +
                 grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
         }
 
         return div;
     };
+    // Adicionar legenda ao mapa
+    legenda.addTo(mapa);
 
-    legend.addTo(map);
-
-    //Hover
+    //Configurar função de interação com o mapa
     geojson = L.geoJson(uf, {
-        style: style,
-        onEachFeature: onEachFeature
-    }).addTo(map);
+        style: estilo,
+        onEachFeature: controleDeIteracao
+    }).addTo(mapa);
 }

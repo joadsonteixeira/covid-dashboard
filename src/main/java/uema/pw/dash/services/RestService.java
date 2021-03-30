@@ -31,7 +31,6 @@ public class RestService {
         this.restTemplate = rtb.build();
         this.repositorio = repositorio;
     }
-
     public Registro[] getRegistrosFromUrl(String url, String autorizacao) throws IOException{
         //Configurar cabeçalho
         HttpHeaders headers = new HttpHeaders();
