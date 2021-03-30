@@ -18,44 +18,43 @@ function casosFull() {
         complete: function () {
             loadingSpinner.style.display = "none";
         }
-    }).then(function (data) {
-        feedCards(data);
-        topCasosEstados(data);
-        topObitos(data);
-        preparaDados(data);
+    }).then(function (dados) {
+        feedCards(dados);
+        topCasosEstados(dados);
+        topObitos(dados);
+        preparaDados(dados);
     });
 }
 
-function feedCards(data) {
+function feedCards(dados) {
     var qtdObitos = 0;
     var qtdCasos = 0;
-    for (let i in data) {
-            qtdObitos += data[i].new_deaths;
-            qtdCasos += data[i].new_confirmed;
-        
+    for (let i in dados) {
+            qtdObitos += dados[i].new_deaths;
+            qtdCasos += dados[i].new_confirmed;
     }
-    casos.innerHTML = qtdCasos + ' Casos Totais';
-    obitos.innerHTML = qtdObitos + ' Óbitos Totais';
+    casos.innerHTML = qtdCasos + ' Casos (últimas 24h)';
+    obitos.innerHTML = qtdObitos + ' Óbitos (últimas 24h)';
 }
 
-function topCasosEstados(data) {
+function topCasosEstados(dados) {
     var casos = [];
-    for (let i in data) {
+    for (let i in dados) {
             casos.push({
-                casos: data[i].new_confirmed,
-                estado: data[i].state
+                casos: dados[i].new_confirmed,
+                estado: dados[i].state
         })
     }
     var sortedCasos = casos.sort(function (a, b) { return b.casos - a.casos }).slice(0, 5);
     graficoTopCasos(sortedCasos);
 }
 
-function topObitos(data) {
+function topObitos(dados) {
     var obitos = [];
-    for (let i in data) {
+    for (let i in dados) {
             obitos.push({
-                obitos: data[i].new_deaths,
-                estado: data[i].state
+                obitos: dados[i].new_deaths,
+                estado: dados[i].state
         })
     }
     var sortedObitos = obitos.sort(function (a, b) { return b.obitos - a.obitos }).slice(0, 5);
@@ -145,9 +144,9 @@ function preparaDados(data){
     feedTabela(dados);
 }
 
-function feedTabela(data) {
+function feedTabela(dados) {
     $('#table').DataTable({
-        data: data,
+        data: dados,
         destroy: true,
         order: [[0, "asc"]],
         pageLength: 10,
