@@ -31,13 +31,13 @@ function getNumeroDeCasosPorUF(uf){
 
 
 function getCor(d) {
-    return d > 1000000 ? '#800026' :
-           d > 500000  ? '#BD0026' :
-           d > 100000  ? '#E31A1C' :
-           d > 50000  ? '#FC4E2A' :
-           d > 10000   ? '#FD8D3C' :
-           d > 5000   ? '#FEB24C' :
-           d > 1000   ? '#FED976' :
+    return d > 2000000 ? '#800026' :
+           d > 1000000  ? '#BD0026' :
+           d > 200000  ? '#E31A1C' :
+           d > 100000  ? '#FC4E2A' :
+           d > 20000   ? '#FD8D3C' :
+           d > 10000   ? '#FEB24C' :
+           d > 5000   ? '#FED976' :
                       '#FFEDA0';
 }
 
@@ -68,7 +68,11 @@ function gerarMapa(dados){
 
     //Criação do mapa
     var mapboxToken = 'pk.eyJ1Ijoiam9hZHNvbnRlaXhlaXJhIiwiYSI6ImNrbXVlbW1saDA0MzYydXFzc3czdHhoanUifQ.MxrQOEen_Trt3FEdh3uhSg'; //Token de acesso ao mapbox
-    var mapa = L.map('map').setView([-15.0040939, -54.1760112], 4);
+    var mapa = L.map('map', {
+        center: [-15.0040939, -54.1760112],
+        zoom: 4,
+        scrollWheelZoom: false
+    });
 
     // Estilização do mapa
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxToken, {
@@ -93,7 +97,7 @@ function gerarMapa(dados){
 
     // Atualização interativa do card de informação
     cardDeInformacao.update = function (props) {
-        this._div.innerHTML = '<h4>Número de Casos</h4>' +  (props ?
+        this._div.innerHTML = '<h5>Número de casos por estado</h5>' +  (props ?
             '<b>' + props.NOME_UF + '</b><br />' + props.NUM_CASOS + ' casos totais'
             : 'Passe o mouse sobre o estado');
     };
@@ -119,9 +123,6 @@ function gerarMapa(dados){
     }
     
     //Aplicar zoom sobre o estado selecionado
-    function zoomEstado(e) {
-        mapa.fitBounds(e.target.getBounds());
-    }
     
     //Remover destaque
     function removerDestaqueEstado(e) {
@@ -134,7 +135,6 @@ function gerarMapa(dados){
         layer.on({
             mouseover: destacarEstado,
             mouseout: removerDestaqueEstado,
-            click: zoomEstado
         });
     }
 
@@ -145,7 +145,7 @@ function gerarMapa(dados){
     legenda.onAdd = function (map) {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 1000, 5000, 10000, 50000, 100000, 500000, 1000000],
+            grades = [0, 5000, 10000, 20000, 100000, 200000, 1000000, 2000000],
             labels = [];
 
         // loop through our density intervals and generate a label with a colored square for each interval

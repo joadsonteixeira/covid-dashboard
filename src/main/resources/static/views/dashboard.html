@@ -10,6 +10,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <link rel="stylesheet" href="../css/map.css"/>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
     <title>BRASIL COVID-19</title>
 </head>
 
@@ -53,8 +64,14 @@
             <div id="topCasosConfirmados" class="col-5" style="height:400px;"></div>
             <div id="topObitos" class="col-5" style="height:400px;"></div>
         </div>
+        <div class="d-flex justify-content-around mt-3 mb-3">
+            <!--Mapa-->
+            <div id="map"></div>
+            <!--Gráfico Pizza-->
+            <div id="graf-pizza" class="col-5"></div>
+        </div>
+        
         <div class="mt-5">
-
             <table id="table" class="table table-sm table-hover">
                 <thead class="thead-dark">
                     <tr>
@@ -80,6 +97,11 @@
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-html5-1.6.5/fh-3.1.8/sc-2.0.3/sb-1.0.1/sp-1.2.2/datatables.min.js"></script>
     <script src="../js/site.js"></script>
+
+    <script src="../js/geoJson.js"></script>
+    <script src="../js/map.js"></script>
+    <script src="../js/graf-pizza.js"></script>
+
 </body>
 
 </html>

@@ -1,16 +1,7 @@
-.body {
-    align-items: center;
-}
-
-#map {
-    width: 100vw;
-    height: 100vh;
-}
-
 #map {
     align-items: center;
-    width: 800px;
-    height: 600px;
+    width: 50%;
+    height: 550px;
 }
 
 .info {
