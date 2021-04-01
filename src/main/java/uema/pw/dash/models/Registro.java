@@ -1,6 +1,8 @@
 package uema.pw.dash.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -13,6 +15,8 @@ import lombok.Data;
 @Entity
 public class Registro{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     Long city_ibge_code;
     String city;
     String date;

@@ -1,7 +1,10 @@
 window.onload = getTodos();
+var custo = document.getElementById('custo');
+var tempoMedio = document.getElementById('tempo-medio');
+
 function getTodos(){
     $.ajax({
-        url: 'http://localhost:8080/registros',
+        url: 'http://localhost:8080/registros/ultimos',
         headers: {
             'Content-Type': 'application/json;'
         },
@@ -10,6 +13,7 @@ function getTodos(){
         datatype: "json"
     }).then(function (dados) {
         gerarGraficoPizza(dados);
+        gerarCardsCusto(dados);
     });
 }
 
@@ -75,4 +79,18 @@ function gerarGraficoPizza(dados){
             }]
         }]
     });
+}
+
+function gerarCardsCusto(dados){
+
+    var taxaInternacao = 0.20;
+    var precoMedioLeitoPorDia = 1764;
+    var mediaDiasInternacao = 11.6;
+
+    var custoInternacoes = totalConfirmados(dados)*taxaInternacao*precoMedioLeitoPorDia*mediaDiasInternacao;
+
+    custo.innerHTML = 'R$ ' + ~~custoInternacoes + ',00';
+    tempoMedio.innerHTML = mediaDiasInternacao + ' dias';
+
+
 }

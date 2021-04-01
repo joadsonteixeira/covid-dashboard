@@ -28,22 +28,31 @@
     <nav class="nav">
         <a class="navbar-brand" href="#">BRASIL COVID-19</a>
 
-        <ul class="nav-list">
-            <li><a href="#">Estados</a></li>
-        </ul>
     </nav>
     <section class="layout">
         <button id="loadingSpinner" class="btn btn-primary mb-3" type="button" style="display: none;" disabled>
             <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
             Carregando dados...
         </button>
-        <div class="container-row justify-content-start">
-            <div class="form-group float-left">
-                <select class="form-control">
-                    <option>Selecione um Estado</option>
-                </select>
+        
+        <!--Custo internação-->
+        <div class="container-row mb-3">
+            <div class="card-content card-blue" style="max-width: 18rem;">
+                <div class="">
+                    <h5 class="">Custo total de internação ao Estado: </h5>
+                    <p id="custo" class="">
+                    </p>
+                </div>
+            </div>
+            <div class="card-content card-blue" style="max-width: 18rem;">
+                <div class="">
+                    <h5 class="">Tempo médio de internação: </h5>
+                    <p id="tempo-medio" class="">
+                    </p>
+                </div>
             </div>
         </div>
+        <!--Casos Confirmado e Óbitos-->
         <div class="container-row">
             <div class="card-content card-yellow" style="max-width: 18rem;">
                 <div class="">
@@ -69,6 +78,11 @@
             <div id="map"></div>
             <!--Gráfico Pizza-->
             <div id="graf-pizza" class="col-5"></div>
+        </div>
+
+        <div class="d-flex justify-content-around mt-3 mb-3">
+            <!--Mapa-->
+            <div id="graf-linha"></div>
         </div>
         
         <div class="mt-5">
@@ -101,6 +115,7 @@
     <script src="../js/geoJson.js"></script>
     <script src="../js/map.js"></script>
     <script src="../js/graf-pizza.js"></script>
+    <script src="../js/graf-linha.js"></script>
 
 </body>
 

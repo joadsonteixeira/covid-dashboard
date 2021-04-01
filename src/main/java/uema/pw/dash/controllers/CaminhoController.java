@@ -39,7 +39,7 @@ public class CaminhoController {
     @EventListener(ContextRefreshedEvent.class)
     public void inicializarBanco() throws IOException{
         RestService restService = new RestService(new RestTemplateBuilder(), registroRepositorio);
-        restService.getRegistrosFromUrl(apiUrl, apiAuth);
+        restService.getTodosRegistrosFromUrl(apiUrl, apiAuth);
         System.out.println("Dados carregados com sucesso!");
     }
     
@@ -54,11 +54,30 @@ public class CaminhoController {
         return registroRepositorio.findAll();
     }
 
+    @GetMapping("/registros/ultimos")
+    @ResponseBody
+    public List<Registro> findUltimosRegistros(){
+        return registroRepositorio.findUltimosRegistros();
+    }
+
 
     @GetMapping("/registros/estado/{estado}")
     @ResponseBody
     public List<Registro> findByState(@PathVariable String estado){
         estado = estado.toUpperCase();
         return registroRepositorio.findByState(estado);
+    }
+
+    @GetMapping("/registros/{date}")
+    @ResponseBody
+    public List<Registro> findByDate(@PathVariable String date){
+        System.out.println(date);
+        return registroRepositorio.findByDateContaining(date);
+    }
+
+    @GetMapping("/registros/{state}/{date}")
+    @ResponseBody
+    public List<Registro> findByStateAndDate(@PathVariable String state, @PathVariable String date){
+        return registroRepositorio.findByStateAndDateContaining(state, date);
     }
 }

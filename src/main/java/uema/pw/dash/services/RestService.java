@@ -31,8 +31,10 @@ public class RestService {
         this.restTemplate = rtb.build();
         this.repositorio = repositorio;
     }
-    public Registro[] getRegistrosFromUrl(String url, String autorizacao) throws IOException{
+
+    public Registro[] getUltimosRegistrosFromUrl(String url, String autorizacao) throws IOException{
         //Configurar cabeçalho
+        url=url+"&is_last=True";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         //headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -65,6 +67,57 @@ public class RestService {
         }
 
         return registros;
+    }
+
+    public void getTodosRegistrosFromUrl(String url, String autorizacao) throws IOException{
+        //Configurar cabeçalho
+        int paginas = 5;
+        int i = 1;
+        Boolean parar = false;
+        
+
+        while(i<=paginas && !parar){
+            String url_req = url + "&page=" + i;
+            System.out.println(url_req);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            //headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            if(autorizacao != null){
+                headers.set("Authorization", autorizacao);
+            }
+
+            //Requisição HTTP
+            HttpEntity<?> requisicao = new HttpEntity<>(headers);
+            ResponseEntity<String> res = this.restTemplate.exchange(url_req, HttpMethod.GET, requisicao, String.class, 1);
+
+            //Tratar dados
+            String json = res.getBody();
+            JsonParser p = new JsonFactory().createParser(json);
+            ObjectMapper mapper = new ObjectMapper();
+            String results = "";
+            while(p.nextToken() != JsonToken.END_OBJECT){
+                if(p.getCurrentName() != null && p.getCurrentName().equals("next")){
+                    if(p.getText().startsWith("null") || p.getText() == null){
+                        parar = true;
+                        break;
+                    }
+                }
+                if(p.getCurrentName() != null && p.getCurrentName().equals("results")){
+                    p.nextToken();
+                    ArrayNode node = mapper.readTree(p);
+                    results = node.toString();
+                    break;
+                }
+            }
+
+            //Json -> Objeto
+            Registro[] registros = mapper.readValue(results, Registro[].class);
+            for(Registro reg : registros){
+                repositorio.save(reg);
+            }
+            i++;
+        }
+
     }
 
 }

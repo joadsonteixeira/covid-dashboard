@@ -15,6 +15,10 @@
   border-radius: 15px;
 }
 
+#graf-linha{
+  width: 100%;
+}
+
 .container-row {
   display: flex;
   justify-content: space-around;
@@ -35,6 +39,10 @@
 
 .card-red {
   background-color: #ff3d3d;
+}
+
+.card-blue {
+  background-color: #d1e2ed;
 }
 
 /* CONSTRUCAO DA NAV BAR */

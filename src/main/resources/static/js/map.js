@@ -1,7 +1,7 @@
 window.onload = getTodos();
 function getTodos(){
     $.ajax({
-        url: 'http://localhost:8080/registros',
+        url: 'http://localhost:8080/registros/ultimos',
         headers: {
             'Content-Type': 'application/json;'
         },
