@@ -86,11 +86,28 @@ function gerarCardsCusto(dados){
     var taxaInternacao = 0.20;
     var precoMedioLeitoPorDia = 1764;
     var mediaDiasInternacao = 11.6;
+    var casosConfirmados = totalConfirmados(dados);
 
-    var custoInternacoes = totalConfirmados(dados)*taxaInternacao*precoMedioLeitoPorDia*mediaDiasInternacao;
+    var custoInternacoes = casosConfirmados*taxaInternacao*precoMedioLeitoPorDia*mediaDiasInternacao;
+    var custoIndividual = precoMedioLeitoPorDia*mediaDiasInternacao;
+    var data = JSON.stringify( { "custo": custoInternacoes.toString() } );
 
-    custo.innerHTML = 'R$ ' + ~~custoInternacoes + ',00';
-    tempoMedio.innerHTML = mediaDiasInternacao + ' dias';
+
+    $.ajax({
+        url: 'http://localhost:8080/custo',
+        headers: {
+            'Content-Type': 'application/json;'
+        },
+        data: data,
+        crossDomain: true,
+        method: 'post',
+        datatype: "json"
+    }).then(function (dados) {
+        console.log('Dados adicionados ao banco com sucesso')
+    });
+
+    custo.innerHTML = 'R$ ' + Math.floor(custoInternacoes) + ',00';
+    tempoMedio.innerHTML = 'R$ ' + Math.floor(custoIndividual) + ',00';
 
 
 }

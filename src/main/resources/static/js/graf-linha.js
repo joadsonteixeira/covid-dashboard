@@ -34,7 +34,25 @@ function obitosTotaisPorMes(dados, data){
     return total;
 }
 
-function gerarGraficoLinhas(dados){
+async function gerarGraficoLinhas(dados){
+
+    var casosPrevistos = 0;
+    var obitosPrevistos = 0;
+
+    
+    await $.ajax({
+        url: 'http://localhost:8080/previsao',
+        headers: {
+            'Content-Type': 'application/json;'
+        },
+        crossDomain: true,
+        method: 'get',
+        datatype: "json"
+    }).then(function (dados) {
+        casosPrevistos = dados.casosPrevistos;
+        obitosPrevistos = dados.obitosPrevistos;
+    });
+
     var acum = [confirmadosTotaisPorMes(dados, '2020-10-28'),
                 confirmadosTotaisPorMes(dados, '2020-11-28'),
                 confirmadosTotaisPorMes(dados, '2020-12-28'),
@@ -62,18 +80,26 @@ function gerarGraficoLinhas(dados){
         },
       
         xAxis: {
-            categories: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr']
+            categories: ['Out', 'Nov', 'Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai']
         },
       
         series: [{
-          name: 'Casos confirmados',
-          data: [acum[0], acum[1], acum[2], acum[3], acum[4], acum[5], acum[6]],
-          color: '#ffe042'
-        }, {
-          name: 'Óbitos',
-          data: [obitos[0], obitos[1], obitos[2], obitos[3], obitos[4], obitos[5], obitos[6]],
-          color: '#ff3d3d'
-        }]
+            name: 'Casos confirmados',
+            data: [acum[0], acum[1], acum[2], acum[3], acum[4], acum[5], acum[6]],
+            color: '#ffe042'
+          }, {
+            name: 'Óbitos',
+            data: [obitos[0], obitos[1], obitos[2], obitos[3], obitos[4], obitos[5], obitos[6]],
+            color: '#ff3d3d'
+          }, {
+            name: 'Previsão de novos casos',
+            data: [null, null, null, null, null, acum[5], casosPrevistos],
+            color: 'purple'
+          }, {
+            name: 'Óbitos previstos',
+            data: [null, null, null, null, null, obitos[5], obitosPrevistos],
+            color: 'black'
+          }]
       
       });
 }
